@@ -1,5 +1,5 @@
-require "erb_method"
+require "erb_generator"
 
-class HTMLGenerator
-  include ERBMethod
+class HTMLGenerator < ERBGenerator
+ 
 end
