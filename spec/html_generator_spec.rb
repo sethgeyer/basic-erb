@@ -11,7 +11,9 @@ describe HTMLGenerator do
 
   describe "#section" do
     it "returns a string of html that has a section containing the text" do
-      section_html = html_generator.section("this-is-the-body-of-a-section")
+      section_html = strip_whitespace(
+        html_generator.section("this-is-the-body-of-a-section")
+      )
 
       expect(section_html).to eq("<section>this-is-the-body-of-a-section</section>")
     end
@@ -52,21 +54,19 @@ describe HTMLGenerator do
 
   context "with a layout" do
     it "returns wraps all html in the layout by replacing yield" do
-      skip
-      html_generator = HTMLGenerator.new("<main>yield</main>")
+      html_generator = HTMLGenerator.new("<main><%= yield %></main>")
       html = strip_whitespace(
         html_generator.section("section_text")
       )
-
       expect(html).to eq("<main><section>section_text</section></main>")
 
-      html_generator = HTMLGenerator.new("<div>yield</div>")
+      html_generator = HTMLGenerator.new("<div><%= yield %></div>")
       html = strip_whitespace(
-        html_generator.unordered_list(["an_item"])
+        html_generator.unordered_list(["an-item"])
       )
-      expect(html).to eq("<div><ul><li>an item</li></ul></div>")
+      expect(html).to eq("<div><ul><li>an-item</li></ul></div>")
 
-      html_generator = HTMLGenerator.new("<section>yield</section>")
+      html_generator = HTMLGenerator.new("<section><%= yield %></section>")
       html = strip_whitespace(
         html_generator.button("button-in-a-section")
       )
