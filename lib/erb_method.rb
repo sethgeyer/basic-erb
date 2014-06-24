@@ -6,24 +6,28 @@ module ERBMethod
     define(locals)
 
     if layout
-      render_layout(layout) do
-        render_template(template)
-      end
+      render_layout(layout, template)
     else
-      render_template(template)
+      render(template)
     end
   end
 
-  def render_layout(layout, &block)
-    ERB.new(layout).result(binding, &block)
+  def render_layout(layout, template)
+    render_with_block(layout) do
+      render(template)
+    end
   end
 
-  def render_template(template)
-    ERB.new(template).result(binding)
+  def render(template)
+    renderer_for(template).result(binding)
   end
 
-  def yield
-    render(template)
+  def render_with_block(template, &block)
+    renderer_for(template).result(binding, &block)
+  end
+
+  def renderer_for(template)
+    ERB.new(template)
   end
 
   def define(locals)
