@@ -7,19 +7,19 @@ end
 describe TestERBMethod do
   describe "#template" do
     it "produces a template with a single local" do
-      locals = {
+      options = {
         :locals => {
           :name => "some name"
         }
       }
       template = "<%= name %>"
-      html = TestERBMethod.new.erb(template, locals)
+      html = TestERBMethod.new.erb(template, options)
 
       expect(html).to eq("some name")
     end
 
     it "produces html with multiple variables" do
-      locals = {
+      options = {
         :locals => {
           :title => "this is a title",
           :items => ["Item 1", "Item 2"]
@@ -35,7 +35,7 @@ describe TestERBMethod do
 </ul>
       TEMPLATE
 
-      html = TestERBMethod.new.erb(template, locals)
+      html = TestERBMethod.new.erb(template, options)
 
       expect(html).to eq(<<-RESULT)
 <h1>this is a title</h1>
@@ -47,6 +47,19 @@ describe TestERBMethod do
 
 </ul>
       RESULT
+    end
+
+    it "wraps content in a layout" do
+      options = {
+        :layout => "<main><%= yield %></main>",
+        :locals => {
+          :name => "some name"
+        }
+      }
+      template = "<%= name %>"
+      html = TestERBMethod.new.erb(template, options)
+
+      expect(html).to eq("<main>some name</main>")
     end
   end
 end
