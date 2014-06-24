@@ -1,21 +1,29 @@
 require "spec_helper"
 
-describe HtmlGenerator do
+class TestERBMethod
+  include ERBMethod
+end
+
+describe TestERBMethod do
   describe "#template" do
     it "produces a template with a single local" do
       locals = {
-        :name => "some name"
+        :locals => {
+          :name => "some name"
+        }
       }
       template = "<%= name %>"
-      html = HtmlGenerator.new(template).template(locals)
+      html = TestERBMethod.new.erb(template, locals)
 
       expect(html).to eq("some name")
     end
 
     it "produces html with multiple variables" do
       locals = {
-        :title => "this is a title",
-        :items => ["Item 1", "Item 2"]
+        :locals => {
+          :title => "this is a title",
+          :items => ["Item 1", "Item 2"]
+        }
       }
 
       template = <<-TEMPLATE
@@ -27,7 +35,7 @@ describe HtmlGenerator do
 </ul>
       TEMPLATE
 
-      html = HtmlGenerator.new(template).template(locals)
+      html = TestERBMethod.new.erb(template, locals)
 
       expect(html).to eq(<<-RESULT)
 <h1>this is a title</h1>
