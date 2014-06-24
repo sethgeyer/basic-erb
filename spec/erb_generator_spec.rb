@@ -1,7 +1,6 @@
 require "spec_helper"
 
-class TestERBMethod
-  include ERBMethod
+class TestERBMethod < ERBGenerator
 end
 
 describe TestERBMethod do

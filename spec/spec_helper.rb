@@ -1,3 +1,3 @@
 require "rspec"
-require "erb_method"
+require "erb_generator"
 require "html_generator"

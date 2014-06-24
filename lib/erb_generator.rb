@@ -1,4 +1,4 @@
-module ERBMethod
+class ERBGenerator
   def erb(template, options = {})
     locals = options.fetch(:locals, {})
     layout = options.fetch(:layout, nil)

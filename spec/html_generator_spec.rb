@@ -5,6 +5,10 @@ describe HTMLGenerator do
     HTMLGenerator.new
   end
 
+  def strip_whitespace(string)
+    string.gsub(/\s+/, "")
+  end
+
   describe "#section" do
     it "returns a string of html that has a section containing the text" do
       section_html = html_generator.section("this is the body of a section")
@@ -15,10 +19,11 @@ describe HTMLGenerator do
 
   describe "#unordered_list" do
     it "returns a string of html that contains the list" do
-      skip
-      list_html = html_generator.unordered_list(["item 1", "item 2", "item 3"])
+      list_html = strip_whitespace(
+        html_generator.unordered_list(["item1", "item2", "item3"])
+      )
 
-      expect(list_html).to eq("<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>")
+      expect(list_html).to eq("<ul><li>item1</li><li>item2</li><li>item3</li></ul>")
     end
   end
 
@@ -42,7 +47,6 @@ describe HTMLGenerator do
 
   context "with a layout" do
     it "returns wraps all html in the layout by replacing yield" do
-      skip
       html_generator = HTMLGenerator.new("<main>yield</main>")
       expect(html_generator.section("section text")).to eq("<main><section>section text</section></main>")
 
