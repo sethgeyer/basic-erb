@@ -1,4 +1,6 @@
 class ERBGenerator
+  # Please do not try to understand this code right now!
+  
   def erb(template, options = {})
     locals = options.fetch(:locals, {})
     layout = options.fetch(:layout, nil)
